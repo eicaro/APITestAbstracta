@@ -1,0 +1,406 @@
+{
+	"info": {
+		"_postman_id": "752a720e-2412-41c3-bb63-57f8ad3bc2ac",
+		"name": "API Abstracta",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25607082"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Update user - /user/{username}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 98115360,\r\n  \"username\": \"Eica\",\r\n  \"firstName\": \"Eileen\",\r\n  \"lastName\": \"Caicedo\",\r\n  \"email\": \"eileen3ca@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"phone\": \"555555555\",\r\n  \"userStatus\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/{{_user}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"{{_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login - /user/login",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/login?username=evan&password=170922",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "evan"
+								},
+								{
+									"key": "password",
+									"value": "170922"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout - /user/logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/user/logout",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Respuesta exitosa\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"La respuesta valida que el body no esta vacio\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty;",
+							"});",
+							"",
+							"pm.test(\"La respuesta tiene la propiedad 'message'\", function () {",
+							"    const jsonResponse = pm.response.json();",
+							"    pm.expect(jsonResponse).to.have.property(\"message\");",
+							"});",
+							"",
+							"if (pm.request.url.toString().includes(\"login\")) {",
+							"    pm.test(\"El campo 'mensaje' contiene 'logged in user session'\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        pm.expect(jsonResponse.message).to.include(\"logged in user session:\");",
+							"    });",
+							"}",
+							"",
+							"if (pm.request.url.toString().includes(\"logout\")) {",
+							"    pm.test(\"El campo 'mensaje' contiene 'ok'\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        pm.expect(jsonResponse.message).to.include(\"ok\");",
+							"    });",
+							"}",
+							"if (pm.request.method === \"PUT\") {",
+							"    pm.test(\"El método de la solicitud es PUT\", function () {",
+							"        pm.expect(pm.request.method).to.equal(\"PUT\");",
+							"    });",
+							"",
+							"    pm.test(\"El campo 'type' es igual a 'unknown'\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        pm.expect(jsonResponse.type).to.equal(\"unknown\");",
+							"    });",
+							"",
+							"    pm.test(\"El campo 'message' contiene un valor numérico válido\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        const messageNumber = parseInt(jsonResponse.message, 10);",
+							"        pm.expect(isNaN(messageNumber)).to.be.false;",
+							"    });",
+							"}"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Pets",
+			"item": [
+				{
+					"name": "Find pets by status - /pet/findByStatus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet/findByStatus?status=available",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"findByStatus"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "available"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find pet by ID - /pet/{petId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet/{{_petId}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"{{_petId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Respuesta exitosa\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"La respuesta valida que el body no esta vacio\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty;",
+							"});",
+							"",
+							"if (pm.request.url.toString().includes(\"findByStatus\")) {",
+							"",
+							"    pm.test(\"Valido el status correcto en mi peticion\", function () {",
+							"        const validStatus = \"available\";",
+							"        const url = pm.request.url.toString();",
+							"        pm.expect(url).to.include(validStatus);",
+							"    });",
+							"",
+							"    pm.test(\"El campo 'id' contiene un valor numérico válido\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        const idNumber = parseInt(jsonResponse.id, 10);",
+							"        jsonResponse.forEach(obj => {",
+							"        const idNumber = parseInt(obj.id, 10);",
+							"        pm.expect(isNaN(idNumber)).to.be.false;",
+							"    });",
+							"    });",
+							"",
+							"    pm.test(\"La respuesta tiene la propiedad 'name'\", function () {",
+							"    const jsonResponse = pm.response.json();",
+							"    jsonResponse.forEach(obj => {",
+							"        pm.expect(obj).to.have.property(\"name\");",
+							"    });",
+							"});",
+							"}",
+							"if (!pm.request.url.toString().includes(\"findByStatus\")) {",
+							"",
+							"     pm.test(\"El campo 'id' contiene un valor numérico válido\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        const idNumber = parseInt(jsonResponse.id, 10);",
+							"        pm.expect(isNaN(idNumber)).to.be.false;",
+							"    });",
+							"",
+							"    pm.test(\"La respuesta tiene la propiedad 'name'\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        pm.expect(jsonResponse).to.have.property(\"name\");",
+							"    });",
+							"",
+							"    pm.test(\"El campo 'mensaje' contiene 'available', 'pending' o 'sold'\", function () {",
+							"    const jsonResponse = pm.response.json();",
+							"    const status = jsonResponse.status;",
+							"",
+							"    pm.expect([\"available\", \"pending\", \"sold\"]).to.include(status);",
+							"});",
+							"}"
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Store",
+			"item": [
+				{
+					"name": "Place an order for a pet - /store/order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"petId\": 9222968140497181000,\r\n  \"quantity\": 1,\r\n  \"shipDate\": \"2024-04-18T01:42:25.900Z\",\r\n  \"status\": \"sold\",\r\n  \"complete\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/store/order",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Respuesta exitosa\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"La respuesta valida que el body no esta vacio\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty;",
+							"});",
+							"",
+							"if (pm.request.url.toString().includes(\"store/order\") && pm.request.method === \"POST\") {",
+							"",
+							"       pm.test(\"El campo 'id' contiene un valor numérico válido\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        const idNumber = parseInt(jsonResponse.id, 10);",
+							"        pm.expect(isNaN(idNumber)).to.be.false;",
+							"    });",
+							"",
+							"     pm.test(\"El campo 'idPet' contiene un valor numérico válido\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        const petId = parseInt(jsonResponse.petId, 10);",
+							"        pm.expect(isNaN(petId)).to.be.false;",
+							"    });",
+							"",
+							"    pm.test(\"La respuesta tiene las propiedades correctas\", function () {",
+							"        const jsonResponse = pm.response.json();",
+							"        pm.expect(jsonResponse).to.have.property(\"id\");",
+							"        pm.expect(jsonResponse).to.have.property(\"petId\");",
+							"        pm.expect(jsonResponse).to.have.property(\"quantity\");",
+							"        pm.expect(jsonResponse).to.have.property(\"shipDate\");",
+							"        pm.expect(jsonResponse).to.have.property(\"status\");",
+							"        pm.expect(jsonResponse).to.have.property(\"complete\");",
+							"    });",
+							"",
+							"}"
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "_petId",
+			"value": "9222968140491042185",
+			"type": "string"
+		},
+		{
+			"key": "_user",
+			"value": "Eica"
+		}
+	]
+}
